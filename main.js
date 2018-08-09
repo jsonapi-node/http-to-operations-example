@@ -21,21 +21,26 @@ const splitQueryParamValue = (queryParam) => {
     return undefined;
   }
 
-  const splits = queryParam.split(',');
+  const splits = queryParam.split(',').map(a => a.trim());
 
   return splits.length === 1 ? splits[0] : splits;
 }
-const getFilters = (query) => {
+const getFromQuery = (query, namespace) => {
+  let regex = new RegExp(`^${namespace}\\[(.*)\\]$`);
   return _.chain(query)
     .keys()
-    .filter(key => key.match(/^filter\[(.*)\]$/))
+    .filter(key => key.match(regex))
     .reduce((result, filterKey) => {
-      const key = filterKey.replace(/^filter\[(.*)\]$/, "$1");
+      const key = filterKey.replace(regex, "$1");
 
       return { ...result, [key]: splitQueryParamValue(query[filterKey]) };
     }, {})
     .value();
-};
+}
+
+
+const getFilters = (query) => getFromQuery(query, "filter");
+const getFields = (query) => getFromQuery(query, "fields");
 
 router.get('/', async (ctx) => {
   ctx.body = {
@@ -52,14 +57,15 @@ router.get('/', async (ctx) => {
 router.get('/:resource', async (ctx) => {
   const include = splitQueryParamValue(ctx.query.include);
   const filters = getFilters(ctx.query);
-  debugger;
+  const fields = getFields(ctx.query);
 
   const operation = {
     op: 'get',
     ref: {
       type: ctx.params.resource,
       include,
-      filters
+      filters,
+      fields
     },
   };
 
