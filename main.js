@@ -37,6 +37,18 @@ const getFilters = (query) => {
     .value();
 };
 
+router.get('/', async (ctx) => {
+  ctx.body = {
+    data: {
+      status: 200,
+      detail: "Try to visit /anything"
+    },
+    links: {
+      'user-example': '/users?filter[email]=like:ryan&include=friends'
+    }
+  }
+});
+
 router.get('/:resource', async (ctx) => {
   const include = splitQueryParamValue(ctx.query.include);
   const filters = getFilters(ctx.query);
