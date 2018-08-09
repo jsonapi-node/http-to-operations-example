@@ -74,6 +74,27 @@ router.get('/:resource', async (ctx) => {
   };
 });
 
+router.get('/:resource/:id', async (ctx) => {
+  const include = splitQueryParamValue(ctx.query.include);
+  const filters = getFilters(ctx.query);
+  const fields = getFields(ctx.query);
+
+  const operation = {
+    op: 'get',
+    ref: {
+      type: ctx.params.resource,
+      id: ctx.params.id,
+      include,
+      filters,
+      fields
+    },
+  };
+
+  ctx.body = {
+    operations: [ operation ]
+  };
+});
+
 app.use(router.allowedMethods());
 app.use(router.routes());
 
