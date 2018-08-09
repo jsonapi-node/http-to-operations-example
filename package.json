@@ -1,0 +1,29 @@
+{
+  "name": "koa-front-controller",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@koa/cors": "^2.2.2",
+    "@types/koa": "^2.0.46",
+    "esm": "^3.0.74",
+    "koa": "^2.5.2",
+    "koa-body-parser": "^1.1.2",
+    "koa-bodyparser": "^4.2.1",
+    "koa-logger": "^3.2.0",
+    "koa-router": "^7.4.0",
+    "lodash": "^4.17.10",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.1"
+  },
+  "devDependencies": {
+    "@types/koa-bodyparser": "^5.0.1",
+    "@types/koa-logger": "^3.1.0",
+    "@types/koa-router": "^7.0.31",
+    "@types/koa__cors": "^2.2.3",
+    "ts-node": "^7.0.0"
+  }
+}
